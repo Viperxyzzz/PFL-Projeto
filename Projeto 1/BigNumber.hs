@@ -58,7 +58,7 @@ subAux xs ys carry | firstX + carry < firstY = (firstX - firstY + carry) + 10  :
 
 
 {-|
-    Auxiliary function to multiply a BigInt by one scalar, must be used in context with mulAux.
+    Auxiliary function to multiply a BigNumber by one scalar, must be used in context with mulAux.
 -}
 getFactor :: BigNumber -> Int -> Int -> BigNumber
 getFactor [] y carry = [carry | carry /= 0]
@@ -96,7 +96,7 @@ type BigNumber = [Int]
     Transforms a string in a BigNumber.
 -}
 scanner :: String->BigNumber
-scanner = map (\x -> read [x] :: Int)
+scanner str = if head str == '-' then [1] ++ map (\x -> read [x] :: Int) (tail str) else [0] ++ map (\x -> read [x] :: Int) str
 
 
 --2.3
@@ -104,7 +104,7 @@ scanner = map (\x -> read [x] :: Int)
     Transforms a BigNumber in a String.
 -}
 output :: BigNumber->String
-output = concatMap show
+output n = if head n == 1 then "-" ++ concatMap show (tail n) else concatMap show (tail n)
 
 
 --2.4
